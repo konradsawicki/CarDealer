@@ -7,6 +7,11 @@
 #include "Product.h"
 #include "Customer.h"
 
+enum class SERVICE_TYPE
+{
+	BUY = 1, SELL = 2, EXIT = 3
+};
+
 class Dealer
 {
 public:
@@ -25,6 +30,8 @@ protected:
 
 	virtual void BuyFromCustomer() = 0;
 	virtual void SellToCustomer();
+
+	virtual void ThankForTransaction();
 
 	virtual ~Dealer() {}
 

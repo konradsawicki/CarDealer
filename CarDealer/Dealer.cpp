@@ -2,6 +2,8 @@
 
 void Dealer::Run()
 {
+	InitProducts();
+
 	while (!b_CustomerExited) //dodac jakis warunek exitujacy
 	{
 		try
@@ -17,11 +19,14 @@ void Dealer::Run()
 
 void Dealer::WelcomeCustomer()
 {
-	system("cls");
+	CLEAR_CONSOLE();
 	PRINT("Welcome!");
-	PRINT("Would you like to buy or sell a product?");
+	PRINT("Type 1 to buy a product, 2 to sell a product or 3 to exit shop and accept with ENTER");
 
-	switch (m_Customer.ChooseService())
+	uint32_t Choice;
+	m_Customer.Answer(Choice);
+
+	switch (static_cast<SERVICE_TYPE>(Choice))
 	{
 		case SERVICE_TYPE::BUY: SellToCustomer(); break;
 		case SERVICE_TYPE::SELL: BuyFromCustomer(); break;
@@ -39,11 +44,28 @@ void Dealer::UpdateProductPrice(ProductInfo& ProductInfoToUpdate)
 
 void Dealer::SellToCustomer()
 {
-	system("cls");
+	CLEAR_CONSOLE();
 	PRINT("List of available products:") << std::endl;
 	ShowProducts(m_AvailableProducts);
-	PRINT("Which product would you like to buy?");
-	uint32_t ChosenProductIndex = m_Customer.ChooseProduct(m_AvailableProducts.size()) - 1;
-	m_SoldProducts.push_back(std::move(m_AvailableProducts[ChosenProductIndex]));
-	m_AvailableProducts.erase(m_AvailableProducts.begin() + ChosenProductIndex);
+	PRINT("Type number between 1 and ", m_AvailableProducts.size(), " to choose the product and accept with ENTER");
+	uint32_t ChosenProductIndex;
+	m_Customer.Answer(ChosenProductIndex);
+	if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_AvailableProducts.size())
+	{
+		ChosenProductIndex -= 1;
+		m_SoldProducts.push_back(std::move(m_AvailableProducts[ChosenProductIndex]));
+		m_AvailableProducts.erase(m_AvailableProducts.begin() + ChosenProductIndex);
+
+		ThankForTransaction();
+	}
+	else
+	{
+		throw("Invalid index");
+	}
+}
+
+void Dealer::ThankForTransaction()
+{
+	LOG("Thank you for the transaction! You will be moved to the main menu in a while.");
+	WelcomeCustomer();
 }

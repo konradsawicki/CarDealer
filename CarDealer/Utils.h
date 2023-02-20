@@ -4,9 +4,11 @@
 #include <thread>
 #include <iostream>
 
+#define CLEAR_CONSOLE() system("cls")
+
 ///////////////////////////////////////////////////////////
 
-#define LOG(x) system("cls");\
+#define LOG(x) CLEAR_CONSOLE();\
 std::cout << x << std::endl;\
 std::this_thread::sleep_for(std::chrono::seconds(2))
 

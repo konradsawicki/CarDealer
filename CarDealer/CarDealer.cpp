@@ -1,11 +1,6 @@
 #include "CarDealer.h"
 #include "Car.h"
 
-CarDealer::CarDealer()
-{
-	InitProducts();
-}
-
 void CarDealer::InitProducts()
 {
 	using namespace std::chrono;
@@ -38,11 +33,13 @@ void CarDealer::BuyFromCustomer()
 	uint32_t YearOfFirstRegistration;
 	float Price;
 
-	PRINT("Model: "); m_Customer.GiveInfo(ModelName);
-	PRINT("Year of first registration: "); m_Customer.GiveInfo(YearOfFirstRegistration);
-	PRINT("Price: "); m_Customer.GiveInfo(Price);
+	PRINT("Model: "); m_Customer.Answer(ModelName);
+	PRINT("Year of first registration: "); m_Customer.Answer(YearOfFirstRegistration);
+	PRINT("Price ($): "); m_Customer.Answer(Price);
 
 	m_AvailableProducts.push_back({ std::make_unique<Car>(ModelName, YearOfFirstRegistration, Price),
 									std::chrono::high_resolution_clock::now() });
+
+	ThankForTransaction();
 }
 
