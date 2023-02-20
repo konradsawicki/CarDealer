@@ -1,5 +1,6 @@
 #include "Dealer.h"
 
+
 void Dealer::Run()
 {
 	InitProducts();
@@ -17,15 +18,16 @@ void Dealer::Run()
 	}
 }
 
-void Dealer::ShowProducts(const std::vector<ProductInfo>& ProductsInfoToShow) const
+void Dealer::ShowProducts(std::vector<ProductInfo>& ProductsInfo)
 {
-	uint32_t Index = 1;
-	for (const auto& ProdInfo : ProductsInfoToShow)
+	for (uint32_t i = 0; i < ProductsInfo.size(); i++)
 	{
-		m_ConsoleMenager.Print(Index, ". product");
-		ShowProduct(ProdInfo);
-		m_ConsoleMenager.EndLine();
-		Index++;
+		if (!b_CustomerExited)
+		{
+			UpdateProductPrice(ProductsInfo[i]);
+		}
+		m_ConsoleMenager.Print(i + 1, ". product");
+		ShowProduct(ProductsInfo[i].first);
 	}
 }
 
@@ -50,24 +52,30 @@ void Dealer::WelcomeCustomer()
 void Dealer::UpdateProductPrice(ProductInfo& ProdInfoToUpdate)
 {
 	using namespace std::chrono;
-	seconds ElapsedTime = duration_cast<seconds>(high_resolution_clock::now() - ProdInfoToUpdate.second);
-	uint32_t IntervalNumberInElapsedTime = ElapsedTime.count() / m_DeprecationTimeInterval;
-	if (ElapsedTime.count() > m_TimeAfterDeprecationStarts &&
-		ProdInfoToUpdate.first->GetBasePrice() / ProdInfoToUpdate.first->GetCurrentPrice() >= m_MaxDeprecation)
-	{
 
+	seconds ElapsedTime = duration_cast<seconds>(high_resolution_clock::now() - ProdInfoToUpdate.second); // func
+	uint32_t IntervalNumberInElapsedTime = ElapsedTime.count() / m_DeprecationTimeInterval; // func 
+	auto BasePrice = ProdInfoToUpdate.first->GetBasePrice();
+	auto CurrentPrice = ProdInfoToUpdate.first->GetCurrentPrice();
+
+	if (ElapsedTime.count() > m_TimeAfterDeprecationStarts &&
+		(BasePrice - CurrentPrice) < BasePrice * m_MaxDeprecation)
+	{
+		CurrentPrice -= CurrentPrice * m_DeprecationStep * IntervalNumberInElapsedTime;
+		ProdInfoToUpdate.first->SetCurrentPrice(CurrentPrice);
 	}
 }
 
 void Dealer::SellToCustomer()
 {
 	m_ConsoleMenager.ClearConsole();
-	m_ConsoleMenager.Print("List of available products:"); m_ConsoleMenager.EndLine();
+	m_ConsoleMenager.Print("List of available products:", '\n');
+
 	ShowProducts(m_AvailableProducts);
 	m_ConsoleMenager.Print("Type number between 1 and ", m_AvailableProducts.size(), " to choose the product and accept with ENTER");
 	uint32_t ChosenProductIndex;
 	m_Customer.Answer(ChosenProductIndex);
-	if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_AvailableProducts.size())
+	if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_AvailableProducts.size()) // is in bounds funkcja sprawdzic
 	{
 		ChosenProductIndex -= 1;
 		m_SoldProducts.push_back(std::move(m_AvailableProducts[ChosenProductIndex]));
@@ -84,10 +92,14 @@ void Dealer::SellToCustomer()
 void Dealer::ThankForTransaction()
 {
 	m_ConsoleMenager.Log("Thank you for the transaction! You will be moved to the main menu in a while.");
-	WelcomeCustomer();
 }
 
 void Dealer::CloseShop()
 {
 	b_CustomerExited = true;
+	m_ConsoleMenager.ClearConsole();
+	m_ConsoleMenager.Print("Workday has ended!");
+	m_ConsoleMenager.Print("Sold products today: ", '\n');
+	ShowProducts(m_SoldProducts);
 }
+

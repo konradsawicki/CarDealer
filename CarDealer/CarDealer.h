@@ -8,7 +8,7 @@ class CarDealer :
 {
 protected:
     void InitProducts() override;
-    void ShowProduct(const ProductInfo& ProductToShow) const override;
+    void ShowProduct(const std::unique_ptr<Product>& ProductToShow) const override;
     void BuyFromCustomer() override;
 };
 

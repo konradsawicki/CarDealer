@@ -24,8 +24,8 @@ public:
 protected:
 	virtual void InitProducts() = 0;
 
-	virtual void ShowProducts(const std::vector<ProductInfo>& ProductsToShow) const;
-	virtual void ShowProduct(const ProductInfo& ProductToShow) const = 0;
+	virtual void ShowProducts(std::vector<ProductInfo>& Products);
+	virtual void ShowProduct(const std::unique_ptr<Product>& Product) const = 0;
 
 	virtual void WelcomeCustomer();
 
@@ -42,6 +42,7 @@ protected:
 	std::vector<ProductInfo> m_AvailableProducts;
 	std::vector<ProductInfo> m_SoldProducts;
 
+	float m_DeprecationStep = 0.01; // decimal (0.1%)
 	float m_MaxDeprecation = 0.2; // decimal (20%)
 	uint32_t m_DeprecationTimeInterval = 10; // seconds
 	uint32_t m_TimeAfterDeprecationStarts = 30; // seconds

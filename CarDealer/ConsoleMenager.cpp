@@ -10,11 +10,6 @@ void ConsoleMenager::ClearBuffer() const
 	std::cin.clear(); std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void ConsoleMenager::EndLine() const
-{
-	std::cout << std::endl;
-}
-
 void ConsoleMenager::Log(const std::string& message) const
 {
 	ClearConsole();

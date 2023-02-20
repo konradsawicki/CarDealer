@@ -3,7 +3,6 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
-#include <sstream>
 
 
 class ConsoleMenager
@@ -16,15 +15,14 @@ public:
 
 	void ClearConsole() const;
 
-	void ClearBuffer() const;
-
-	void EndLine() const;
-
 	template<typename T>
 	typename std::enable_if_t<std::is_same_v<T, std::string>> TakeInput(T& Input) const;
 
 	template<typename T>
 	typename std::enable_if_t<!std::is_same_v<T, std::string>> TakeInput(T& Input) const;
+
+protected:
+	void ClearBuffer() const;
 };
 
 template<typename ... Types>
@@ -44,7 +42,7 @@ inline typename std::enable_if_t<std::is_same_v<T, std::string>> ConsoleMenager:
 }
 
 template<typename T>
-inline typename std::enable_if_t<!std::is_same_v<T, std::string>> ConsoleMenager::TakeInput(T& Input) const
+inline typename std::enable_if_t<!std::is_same_v<T, std::string>> ConsoleMenager::TakeInput(T& Input) const // returnowac
 {
 	if (std::cin >> Input)
 	{

@@ -9,24 +9,29 @@ void CarDealer::InitProducts()
 	m_AvailableProducts.push_back({ std::make_unique<Car>("BMW 3", 2008, 6500), high_resolution_clock::now() });
 }
 
-void CarDealer::ShowProduct(const ProductInfo& ProductInfoToShow) const
+void CarDealer::ShowProduct(const std::unique_ptr<Product>& product) const
 {
-	if (Car* car = dynamic_cast<Car*>(ProductInfoToShow.first.get()))
+	auto car = dynamic_cast<Car*>(product.get());
+	if (car)
 	{
 		m_ConsoleMenager.Print("Model: ", car->GetModelName());
 		m_ConsoleMenager.Print("Year of first registration: ", car->GetYearOfFirstRegistration());
 		m_ConsoleMenager.Print("Price: ", car->GetCurrentPrice(), "$");
+	}
+	else
+	{
+		throw("Invalid product type");
 	}
 }
 
 void CarDealer::BuyFromCustomer()
 {
 	m_ConsoleMenager.ClearConsole();
-	m_ConsoleMenager.Print("Please give info about product that you want to sell: "); m_ConsoleMenager.EndLine();
+	m_ConsoleMenager.Print("Please give info about the product that you want to sell: ", '\n');
 
 	std::string ModelName;
 	uint32_t YearOfFirstRegistration;
-	float Price;
+	uint32_t Price;
 
 	m_ConsoleMenager.Print("Model: "); m_Customer.Answer(ModelName);
 	m_ConsoleMenager.Print("Year of first registration: "); m_Customer.Answer(YearOfFirstRegistration);

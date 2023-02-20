@@ -137,7 +137,6 @@
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Dealer.h" />
     <ClInclude Include="Product.h" />
-    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
