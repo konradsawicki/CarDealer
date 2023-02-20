@@ -3,9 +3,9 @@
 #include <vector>
 #include <memory>
 
-#include "Utils.h"
 #include "Product.h"
 #include "Customer.h"
+#include "ConsoleMenager.h"
 
 enum class SERVICE_TYPE
 {
@@ -19,10 +19,13 @@ public:
 	using ProductInfo = std::pair<std::unique_ptr<Product>, time>;
 
 	virtual void Run();
+	virtual ~Dealer() {}
 
 protected:
 	virtual void InitProducts() = 0;
-	virtual void ShowProducts(const std::vector<ProductInfo>& ProductsToShow) = 0;
+
+	virtual void ShowProducts(const std::vector<ProductInfo>& ProductsToShow) const;
+	virtual void ShowProduct(const ProductInfo& ProductToShow) const = 0;
 
 	virtual void WelcomeCustomer();
 
@@ -33,13 +36,18 @@ protected:
 
 	virtual void ThankForTransaction();
 
-	virtual ~Dealer() {}
+	virtual void CloseShop();
 
 protected:
 	std::vector<ProductInfo> m_AvailableProducts;
 	std::vector<ProductInfo> m_SoldProducts;
 
+	float m_MaxDeprecation = 0.2; // decimal (20%)
+	uint32_t m_DeprecationTimeInterval = 10; // seconds
+	uint32_t m_TimeAfterDeprecationStarts = 30; // seconds
+
 	Customer m_Customer;
+	ConsoleMenager m_ConsoleMenager;
 
 	bool b_CustomerExited = false;
 };

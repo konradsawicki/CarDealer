@@ -1,16 +1,21 @@
 #include "Product.h"
 
-Product::Product(float Price)
-	: m_Price(Price)
+Product::Product(uint32_t BasePrice)
+	: m_BasePrice(BasePrice), m_CurrentPrice(BasePrice)
 {
 }
 
-float Product::GetPrice() const
+uint32_t Product::GetBasePrice() const
 {
-	return m_Price;
+	return m_BasePrice;
 }
 
-void Product::SetPrice(float Price)
+uint32_t Product::GetCurrentPrice() const
 {
-	m_Price = Price;
+	return m_CurrentPrice;
+}
+
+void Product::SetCurrentPrice(uint32_t CurrentPrice)
+{
+	m_CurrentPrice = CurrentPrice;
 }

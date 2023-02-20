@@ -1,15 +1,20 @@
 #pragma once
+
+#include <stdint.h>
+
 class Product
 {
 public:
-	Product(float Price);
+	Product(uint32_t BasePrice);
 
-	virtual float GetPrice() const;
-	virtual void SetPrice(float Price);
+	virtual uint32_t GetBasePrice() const;
+	virtual uint32_t GetCurrentPrice() const;
+	virtual void SetCurrentPrice(uint32_t CurrentPrice);
 
 	virtual ~Product() {};
 
 protected:
-	float m_Price;
+	uint32_t m_BasePrice;
+	uint32_t m_CurrentPrice;
 };
 

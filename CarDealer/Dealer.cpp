@@ -4,7 +4,7 @@ void Dealer::Run()
 {
 	InitProducts();
 
-	while (!b_CustomerExited) //dodac jakis warunek exitujacy
+	while (!b_CustomerExited)
 	{
 		try
 		{
@@ -12,16 +12,28 @@ void Dealer::Run()
 		}
 		catch (...)
 		{
-			LOG("Something went wrong. Try again in a while.");
+			m_ConsoleMenager.Log("Something went wrong. Try again in a while.");
 		}
+	}
+}
+
+void Dealer::ShowProducts(const std::vector<ProductInfo>& ProductsInfoToShow) const
+{
+	uint32_t Index = 1;
+	for (const auto& ProdInfo : ProductsInfoToShow)
+	{
+		m_ConsoleMenager.Print(Index, ". product");
+		ShowProduct(ProdInfo);
+		m_ConsoleMenager.EndLine();
+		Index++;
 	}
 }
 
 void Dealer::WelcomeCustomer()
 {
-	CLEAR_CONSOLE();
-	PRINT("Welcome!");
-	PRINT("Type 1 to buy a product, 2 to sell a product or 3 to exit shop and accept with ENTER");
+	m_ConsoleMenager.ClearConsole();
+	m_ConsoleMenager.Print("Welcome!");
+	m_ConsoleMenager.Print("Type 1 to buy a product, 2 to sell a product or 3 to exit shop and accept with ENTER");
 
 	uint32_t Choice;
 	m_Customer.Answer(Choice);
@@ -30,24 +42,29 @@ void Dealer::WelcomeCustomer()
 	{
 		case SERVICE_TYPE::BUY: SellToCustomer(); break;
 		case SERVICE_TYPE::SELL: BuyFromCustomer(); break;
-		case SERVICE_TYPE::EXIT: b_CustomerExited = true; break;
+		case SERVICE_TYPE::EXIT: CloseShop(); break;
 		default: throw("Invalid service type");
 	}
 }
 
-void Dealer::UpdateProductPrice(ProductInfo& ProductInfoToUpdate)
+void Dealer::UpdateProductPrice(ProductInfo& ProdInfoToUpdate)
 {
 	using namespace std::chrono;
-	seconds ElapsedTime = duration_cast<seconds>(high_resolution_clock::now() - ProductInfoToUpdate.second);
-	uint32_t TenSecsNumber = ElapsedTime.count() / 10;
+	seconds ElapsedTime = duration_cast<seconds>(high_resolution_clock::now() - ProdInfoToUpdate.second);
+	uint32_t IntervalNumberInElapsedTime = ElapsedTime.count() / m_DeprecationTimeInterval;
+	if (ElapsedTime.count() > m_TimeAfterDeprecationStarts &&
+		ProdInfoToUpdate.first->GetBasePrice() / ProdInfoToUpdate.first->GetCurrentPrice() >= m_MaxDeprecation)
+	{
+
+	}
 }
 
 void Dealer::SellToCustomer()
 {
-	CLEAR_CONSOLE();
-	PRINT("List of available products:") << std::endl;
+	m_ConsoleMenager.ClearConsole();
+	m_ConsoleMenager.Print("List of available products:"); m_ConsoleMenager.EndLine();
 	ShowProducts(m_AvailableProducts);
-	PRINT("Type number between 1 and ", m_AvailableProducts.size(), " to choose the product and accept with ENTER");
+	m_ConsoleMenager.Print("Type number between 1 and ", m_AvailableProducts.size(), " to choose the product and accept with ENTER");
 	uint32_t ChosenProductIndex;
 	m_Customer.Answer(ChosenProductIndex);
 	if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_AvailableProducts.size())
@@ -66,6 +83,11 @@ void Dealer::SellToCustomer()
 
 void Dealer::ThankForTransaction()
 {
-	LOG("Thank you for the transaction! You will be moved to the main menu in a while.");
+	m_ConsoleMenager.Log("Thank you for the transaction! You will be moved to the main menu in a while.");
 	WelcomeCustomer();
+}
+
+void Dealer::CloseShop()
+{
+	b_CustomerExited = true;
 }
