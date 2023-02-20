@@ -23,7 +23,7 @@ protected:
 
 	virtual void UpdateProductPrice(ProductInfo& ProductInfoToUpdate);
 
-	virtual void BuyFromCustomer();
+	virtual void BuyFromCustomer() = 0;
 	virtual void SellToCustomer();
 
 	virtual ~Dealer() {}
@@ -33,5 +33,7 @@ protected:
 	std::vector<ProductInfo> m_SoldProducts;
 
 	Customer m_Customer;
+
+	bool b_CustomerExited = false;
 };
 

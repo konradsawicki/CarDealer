@@ -12,5 +12,6 @@ public:
 protected:
     void InitProducts() override;
     void ShowProducts(const std::vector<ProductInfo>& ProductsToShow) override;
+    void BuyFromCustomer() override;
 };
 

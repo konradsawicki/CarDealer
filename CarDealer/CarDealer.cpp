@@ -24,9 +24,25 @@ void CarDealer::ShowProducts(const std::vector<ProductInfo>& ProductsInfoToShow)
 			PRINT(Index, ". car");
 			PRINT("Model: ", car->GetModelName());
 			PRINT("Year of first registration: ", car->GetYearOfFirstRegistration());
-			PRINT("Price ($): ", car->GetPrice()) << std::endl;
+			PRINT("Price: ", car->GetPrice(), "$") << std::endl;
 			Index++;
 		}
 	}
+}
+
+void CarDealer::BuyFromCustomer()
+{
+	PRINT("Please give info about product that you want to sell: ");
+
+	std::string ModelName;
+	uint32_t YearOfFirstRegistration;
+	float Price;
+
+	PRINT("Model: "); m_Customer.GiveInfo(ModelName);
+	PRINT("Year of first registration: "); m_Customer.GiveInfo(YearOfFirstRegistration);
+	PRINT("Price: "); m_Customer.GiveInfo(Price);
+
+	m_AvailableProducts.push_back({ std::make_unique<Car>(ModelName, YearOfFirstRegistration, Price),
+									std::chrono::high_resolution_clock::now() });
 }
 
