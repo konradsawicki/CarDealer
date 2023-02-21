@@ -1,18 +1,11 @@
 #pragma once
 
-#include "ConsoleMenager.h"
-#include <type_traits>
+#include "Person.h"
 
-class Customer
+class Customer :
+	public Person
 {
-public:
-    template<typename T>
-	void Answer(T& Input) const
-	{
-		m_ConsoleMenager.TakeInput(Input);
-	}
-
-protected:
-	ConsoleMenager m_ConsoleMenager;
+	// class for additional functionality (different from Owner) in the future
+	// and to differentiate from Owner
 };
 

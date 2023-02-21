@@ -6,10 +6,11 @@ class Car :
     public Product
 {
 public:
-    Car(const std::string& Model, uint32_t YearOfFirstRegistration, float Price);
+    Car(const std::string& ModelName, uint32_t YearOfFirstRegistration, float Price)
+        : Product(Price), m_ModelName(ModelName), m_YearOfFirstRegistration(YearOfFirstRegistration) {}
 
-    const std::string& GetModelName() const;
-    uint32_t GetYearOfFirstRegistration() const;
+    const std::string& GetModelName() const { return m_ModelName; }
+    uint32_t GetYearOfFirstRegistration() const { return m_YearOfFirstRegistration; }
 
 protected:
     std::string m_ModelName;

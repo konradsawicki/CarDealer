@@ -33,24 +33,24 @@
     <ClInclude Include="ConsoleMenager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TimeMenager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Person.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Owner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dealer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Product.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CarDealer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Car.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsoleMenager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
