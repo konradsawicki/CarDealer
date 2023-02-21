@@ -37,7 +37,6 @@ protected:
 	std::unique_ptr<Shop> m_Shop;
 	Customer m_Customer;
 
-	ConsoleManager m_ConsoleManager;
 	TimeManager m_TimeManager;
 
 	bool b_CustomerExited = false;

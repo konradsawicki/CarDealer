@@ -45,7 +45,7 @@ void CarDealer::BuyFromCustomer()
 	m_ConsoleManager.Print('\n', "Price ($): ");
 	uint32_t Price = m_Customer.GetAnswer<uint32_t>();
 
-	m_Shop->AddAvailableProduct({std::make_unique<Car>(ModelName, YearOfFirstRegistration, Price), m_TimeManager.Now()});
+	m_Shop->AddAvailableProduct({std::make_shared<Car>(ModelName, YearOfFirstRegistration, Price), m_TimeManager.Now()});
 	ThankForTransaction();
 }
 
