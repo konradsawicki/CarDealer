@@ -16,9 +16,9 @@ void CarDealer::InitShop()
 	}
 }
 
-void CarDealer::ShowProduct(const Product& Item) const
+void CarDealer::ShowProduct(const Product& Product) const
 {
-	Car* car = dynamic_cast<Car*>(Item.Item.get());
+	Car* car = dynamic_cast<Car*>(Product.Item.get());
 	if (car)
 	{
 		m_ConsoleManager.Print("Model: ", car->GetModelName());
@@ -45,7 +45,7 @@ void CarDealer::BuyFromCustomer()
 	m_ConsoleManager.Print('\n', "Price ($): ");
 	uint32_t Price = m_Customer.GetAnswer<uint32_t>();
 
-	m_Shop->AddAvailableProduct({std::make_shared<Car>(ModelName, YearOfFirstRegistration, Price), m_TimeManager.Now()});
+	m_Shop->AddAvailableProduct({std::make_shared<Car>(ModelName, YearOfFirstRegistration, Price * 1.2), m_TimeManager.Now()});
 	ThankForTransaction();
 }
 
