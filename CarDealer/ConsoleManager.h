@@ -6,7 +6,7 @@
 #include <string>
 #include <conio.h>
 
-class ConsoleMenager
+class ConsoleManager
 {
 public:
 	void Log(const std::string& message) const

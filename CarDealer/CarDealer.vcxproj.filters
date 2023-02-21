@@ -18,7 +18,7 @@
     <ClInclude Include="Dealer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Product.h">
+    <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CarDealer.h">
@@ -30,16 +30,19 @@
     <ClInclude Include="Customer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleMenager.h">
+    <ClInclude Include="ConsoleManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TimeMenager.h">
+    <ClInclude Include="TimeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Person.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Owner.h">
+    <ClInclude Include="Shop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CarShop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -51,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CarShop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

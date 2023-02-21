@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ConsoleMenager.h"
-#include <type_traits>
+#include "ConsoleManager.h"
 
 class Person
 {
@@ -9,10 +8,10 @@ public:
 	template<typename T>
 	T GetAnswer() const
 	{
-		return m_ConsoleMenager.GetInput<T>();
+		return m_ConsoleManager.GetInput<T>();
 	}
 
 protected:
-	ConsoleMenager m_ConsoleMenager;
+	ConsoleManager m_ConsoleManager;
 };
 

@@ -1,14 +1,13 @@
 #pragma once
 
 #include "Dealer.h"
-#include "Car.h"
 
 class CarDealer :
     public Dealer
 {
 protected:
-    void InitProducts() override;
-    void ShowProduct(const ProductInfo& Product) const override;
+    void InitShop() override;
+    void ShowProduct(const Product& Item) const override;
     void BuyFromCustomer() override;
 };
 

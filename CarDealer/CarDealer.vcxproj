@@ -133,18 +133,21 @@
   <ItemGroup>
     <ClInclude Include="Car.h" />
     <ClInclude Include="CarDealer.h" />
-    <ClInclude Include="ConsoleMenager.h" />
+    <ClInclude Include="CarShop.h" />
+    <ClInclude Include="ConsoleManager.h" />
     <ClInclude Include="Customer.h" />
     <ClInclude Include="Dealer.h" />
-    <ClInclude Include="Owner.h" />
     <ClInclude Include="Person.h" />
-    <ClInclude Include="Product.h" />
-    <ClInclude Include="TimeMenager.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Shop.h" />
+    <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="CarDealer.cpp" />
+    <ClCompile Include="CarShop.cpp" />
     <ClCompile Include="Dealer.cpp" />
+    <ClCompile Include="Shop.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,7 +5,7 @@ int main()
 {
 	CarDealer cardealer;
 
-	cardealer.Run();
+	cardealer.OpenShop();
 
 	return 0;
 }

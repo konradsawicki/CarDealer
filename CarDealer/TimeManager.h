@@ -4,7 +4,7 @@
 
 using namespace std::chrono;
 
-class TimeMenager
+class TimeManager
 {
 public:
 	template<typename T>

@@ -1,21 +1,8 @@
 #include "Dealer.h"
 
-template <typename A, typename B>
-inline A Division(A x, B y)
+void Dealer::OpenShop()
 {
-	if (y != 0)
-	{
-		return x / y;
-	}
-	else
-	{
-		throw("Division by 0");
-	}
-}
-
-void Dealer::Run()
-{
-	InitProducts();
+	InitShop();
 
 	while (!b_CustomerExited && !b_ShopClosed)
 	{
@@ -25,79 +12,64 @@ void Dealer::Run()
 		}
 		catch (...)
 		{
-			m_ConsoleMenager.Log("Something went wrong. Try again in a while.");
+			m_ConsoleManager.Log("Something went wrong. Try again in a while.");
 		}
 	}
 }
 
 void Dealer::ShowAvailableProducts()
 {
-	m_ConsoleMenager.Print("List of available products:", '\n');
-	for (uint32_t i = 0; i < m_AvailableProducts.size(); i++)
+	m_ConsoleManager.Print("List of available products:", '\n');
+	for (uint32_t i = 0; i < m_Shop->GetAvailableProducts().size(); i++)
 	{
-		UpdateProductPrice(m_AvailableProducts[i]);
-		m_ConsoleMenager.Print(i + 1, ". product");
-		ShowProduct(m_AvailableProducts[i]);
-		m_ConsoleMenager.Print('\n');
+		m_Shop->UpdateProductPrice(i);
+		m_ConsoleManager.Print(i + 1, ". product");
+		ShowProduct(m_Shop->GetAvailableProducts()[i]);
+		m_ConsoleManager.Print('\n');
 	}
 }
 
 void Dealer::ShowSoldProducts()
 {
-	m_ConsoleMenager.Print("List of sold products: ", '\n');
-	for (uint32_t i = 0; i < m_SoldProducts.size(); i++)
+	m_ConsoleManager.Print("List of sold products: ", '\n');
+	for (uint32_t i = 0; i < m_Shop->GetAvailableProducts().size(); i++)
 	{
-		m_ConsoleMenager.Print(i + 1, ". product");
-		ShowProduct(m_SoldProducts[i]);
-		m_ConsoleMenager.Print('\n');
+		m_ConsoleManager.Print(i + 1, ". product");
+		ShowProduct(m_Shop->GetAvailableProducts()[i]);
+		m_ConsoleManager.Print('\n');
 	}
 }
 
 void Dealer::WelcomeCustomer()
 {
-	m_ConsoleMenager.ClearConsole();
-	m_ConsoleMenager.Print("Welcome!");
-	m_ConsoleMenager.Print("Type 1 to buy a product, 2 to sell a product or 3 to exit shop and accept with ENTER");
+	m_ConsoleManager.ClearConsole();
+	m_ConsoleManager.Print("Welcome!");
+	m_ConsoleManager.Print("Type 1 to buy a product, 2 to sell a product or 3 to exit the shop and accept with ENTER");
 
 	uint32_t Choice = m_Customer.GetAnswer<uint32_t>();
-	switch (static_cast<SERVICE_TYPE>(Choice))
+	switch (Choice)
 	{
-		case SERVICE_TYPE::BUY: SellToCustomer(); break;
-		case SERVICE_TYPE::SELL: BuyFromCustomer(); break;
-		case SERVICE_TYPE::EXIT: EndWorkingDay(); break;
+		case 1: SellToCustomer(); break;
+		case 2: BuyFromCustomer(); break;
+		case 3: EndWorkDay(); break;
 		default: throw("Invalid service type");
-	}
-}
-
-void Dealer::UpdateProductPrice(ProductInfo& ProdInfoToUpdate)
-{
-	seconds ElapsedTime = m_TimeMenager.CalculateDuration<seconds>(m_TimeMenager.Now(), ProdInfoToUpdate.second);
-	uint32_t IntervalNumberInElapsedTime = Division(ElapsedTime.count(), m_DeprecationTimeInterval);
-	auto BasePrice = ProdInfoToUpdate.first->GetBasePrice();
-	auto CurrentPrice = ProdInfoToUpdate.first->GetCurrentPrice();
-
-	if (ElapsedTime.count() > m_TimeAfterDeprecationStarts &&
-		BasePrice - CurrentPrice < BasePrice * m_MaxDeprecation)
-	{
-		CurrentPrice -= CurrentPrice * m_DeprecationStep * IntervalNumberInElapsedTime;
-		ProdInfoToUpdate.first->SetCurrentPrice(CurrentPrice);
 	}
 }
 
 void Dealer::SellToCustomer()
 {
-	m_ConsoleMenager.ClearConsole();
-	if (!m_AvailableProducts.empty())
+	m_ConsoleManager.ClearConsole();
+	if (!m_Shop->GetAvailableProducts().empty())
 	{
 		ShowAvailableProducts();
-		m_ConsoleMenager.Print("Type number between 1 and ", m_AvailableProducts.size(), " to choose the product and accept with ENTER");
+		m_ConsoleManager.Print("Type number between 1 and ", m_Shop->GetAvailableProducts().size(), " to choose the product and accept with ENTER");
 		uint32_t ChosenProductIndex = m_Customer.GetAnswer<uint32_t>();
 
-		if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_AvailableProducts.size())
+		if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_Shop->GetAvailableProducts().size())
 		{
 			ChosenProductIndex -= 1;
-			m_SoldProducts.push_back(std::move(m_AvailableProducts[ChosenProductIndex]));
-			m_AvailableProducts.erase(m_AvailableProducts.begin() + ChosenProductIndex);
+			m_Shop->AddSoldProduct(std::move(m_Shop->GetAvailableProducts()[ChosenProductIndex]));
+			m_Shop->RemoveAvailableProduct(m_Shop->GetAvailableProducts().cbegin() + ChosenProductIndex);
 
 			ThankForTransaction();
 		}
@@ -108,36 +80,36 @@ void Dealer::SellToCustomer()
 	}
 	else
 	{
-		m_ConsoleMenager.Log("No cars to sell currently.");
+		m_ConsoleManager.Log("No cars to sell currently.");
 	}
 }
 
 void Dealer::ThankForTransaction()
 {
-	m_ConsoleMenager.Log("Thank you for the transaction! You will be moved to the main menu in a while.");
+	m_ConsoleManager.Log("Thank you for the transaction! You will be moved to the main menu in a while.");
 }
 
-void Dealer::EndWorkingDay()
+void Dealer::EndWorkDay()
 {
-	m_ConsoleMenager.ClearConsole();
-	m_ConsoleMenager.Print("Workday has ended!");
+	m_ConsoleManager.ClearConsole();
+	m_ConsoleManager.Print("Workday has ended!");
 	while (!b_ShopClosed)
 	{
-		m_ConsoleMenager.Print("Type 1 to see available products, 2 to see sold products or 3 to close the shop.");
-		switch (m_Owner.GetAnswer<uint32_t>())
+		m_ConsoleManager.Print("Type 1 to see available products, 2 to see sold products or 3 to close the shop.");
+		switch (GetAnswer<uint32_t>())
 		{
-			case 1: m_ConsoleMenager.ClearConsole(); 
+			case 1: m_ConsoleManager.ClearConsole(); 
 					ShowAvailableProducts(); 
-					m_ConsoleMenager.Print("Press anything to go back.");
-					m_Owner.GetAnswer<char>();
-					m_ConsoleMenager.ClearConsole();
+					m_ConsoleManager.Print("Press anything to go back.");
+					GetAnswer<char>();
+					m_ConsoleManager.ClearConsole();
 					break;
 
-			case 2: m_ConsoleMenager.ClearConsole();
+			case 2: m_ConsoleManager.ClearConsole();
 					ShowSoldProducts();
-					m_ConsoleMenager.Print("Press anything to go back.");
-					m_Owner.GetAnswer<char>();
-					m_ConsoleMenager.ClearConsole();
+					m_ConsoleManager.Print("Press anything to go back.");
+					GetAnswer<char>();
+					m_ConsoleManager.ClearConsole();
 					break;
 
 			case 3: CloseShop(); break;
