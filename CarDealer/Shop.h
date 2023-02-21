@@ -19,15 +19,19 @@ protected:
 
 public:
 	virtual void Run();
-	virtual void AddAvailableProduct(const Product& Product);
-	virtual void AddSoldProduct(const Product& Product);
+	virtual void AddAvailableProduct(const std::shared_ptr<Item>& Item) = 0;
+	virtual void AddSoldProduct(const std::shared_ptr<Item>& Item) = 0;
 
-	virtual void RemoveAvailableProduct(const std::vector<Product>::const_iterator& Iterator);
+	virtual void RemoveAvailableProduct(uint32_t Index);
 
 	virtual const std::vector<Product>& GetAvailableProducts() const;
 	virtual const std::vector<Product>& GetSoldProducts() const;
 
 	virtual void UpdateProductPrice(uint32_t Index);
+
+	
+	
+	virtual ~Shop() {}
 
 protected:
 	std::vector<Product> m_AvailableProducts;
@@ -41,3 +45,15 @@ protected:
 	uint32_t m_TimeAfterDeprecationStarts = 30; // seconds
 };
 
+template <typename A, typename B>
+inline float Division(A x, B y)
+{
+	if (y != 0)
+	{
+		return x / y;
+	}
+	else
+	{
+		throw(std::exception());
+	}
+}

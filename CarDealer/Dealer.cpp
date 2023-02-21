@@ -10,6 +10,11 @@ void Dealer::OpenShop()
 		{
 			WelcomeCustomer();
 		}
+		catch (const std::exception& e)
+		{
+			m_ConsoleManager.Log("Fatal error.");
+			exit(1);
+		}
 		catch (...)
 		{
 			m_ConsoleManager.Log("Something went wrong. Try again in a while.");
@@ -68,8 +73,8 @@ void Dealer::SellToCustomer()
 		if (ChosenProductIndex >= 1 && ChosenProductIndex <= m_Shop->GetAvailableProducts().size())
 		{
 			ChosenProductIndex -= 1;
-			m_Shop->AddSoldProduct(std::move(m_Shop->GetAvailableProducts()[ChosenProductIndex]));
-			m_Shop->RemoveAvailableProduct(m_Shop->GetAvailableProducts().cbegin() + ChosenProductIndex);
+			m_Shop->AddSoldProduct(m_Shop->GetAvailableProducts()[ChosenProductIndex].Item);
+			m_Shop->RemoveAvailableProduct(ChosenProductIndex);
 
 			ThankForTransaction();
 		}

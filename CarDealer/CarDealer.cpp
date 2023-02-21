@@ -12,7 +12,7 @@ void CarDealer::InitShop()
 	}
 	else
 	{
-		exit(1);
+		throw(std::exception());
 	}
 }
 
@@ -45,7 +45,7 @@ void CarDealer::BuyFromCustomer()
 	m_ConsoleManager.Print('\n', "Price ($): ");
 	uint32_t Price = m_Customer.GetAnswer<uint32_t>();
 
-	m_Shop->AddAvailableProduct({std::make_shared<Car>(ModelName, YearOfFirstRegistration, Price * 1.2), m_TimeManager.Now()});
+	m_Shop->AddAvailableProduct(std::make_shared<Car>(ModelName, YearOfFirstRegistration, Price * 1.2));
 	ThankForTransaction();
 }
 
