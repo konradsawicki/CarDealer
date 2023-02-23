@@ -30,10 +30,10 @@ const std::vector<Product>& Shop::GetSoldProducts() const
 
 void Shop::UpdateProductPrice(uint32_t Index)
 {
-	if (Index < m_AvailableProducts.size())
+	if (Index < m_AvailableProducts.size() && m_DeprecationTimeInterval > 0)
 	{
 		seconds ElapsedTime = m_TimeManager.CalculateDuration<seconds>(m_TimeManager.Now(), m_AvailableProducts[Index].Time);
-		uint32_t IntervalNumberInElapsedTime = Division(ElapsedTime.count(), m_DeprecationTimeInterval);
+		uint32_t IntervalNumberInElapsedTime = ElapsedTime.count() / m_DeprecationTimeInterval;
 		uint32_t BasePrice = m_AvailableProducts[Index].Item->GetBasePrice();
 		uint32_t CurrentPrice = m_AvailableProducts[Index].Item->GetCurrentPrice();
 

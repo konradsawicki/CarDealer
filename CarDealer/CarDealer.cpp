@@ -5,7 +5,6 @@
 
 void CarDealer::InitShop()
 {
-
 	if (m_Shop = std::make_unique<CarShop>())
 	{
 		m_Shop->Run();

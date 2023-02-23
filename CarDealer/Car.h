@@ -6,7 +6,7 @@ class Car :
     public Item
 {
 public:
-    Car(const std::string& ModelName, uint32_t YearOfFirstRegistration, float Price)
+    Car(const std::string& ModelName, uint32_t YearOfFirstRegistration, uint32_t Price)
         : Item(Price), m_ModelName(ModelName), m_YearOfFirstRegistration(YearOfFirstRegistration) {}
 
     const std::string& GetModelName() const { return m_ModelName; }

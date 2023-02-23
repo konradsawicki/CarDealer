@@ -29,8 +29,6 @@ public:
 
 	virtual void UpdateProductPrice(uint32_t Index);
 
-	
-	
 	virtual ~Shop() {}
 
 protected:
@@ -41,8 +39,8 @@ protected:
 
 	float m_DeprecationStep = 0.001f;			// decimal (multiply by 100 to get percents)
 	float m_MaxDeprecation = 0.2f;				// decimal (multiply by 100 to get percents)
-	uint32_t m_DeprecationTimeInterval = 10;	// seconds
-	uint32_t m_TimeAfterDeprecationStarts = 30; // seconds
+	uint32_t m_DeprecationTimeInterval = 5;	// seconds
+	uint32_t m_TimeAfterDeprecationStarts = 10; // seconds
 };
 
 template <typename A, typename B>
