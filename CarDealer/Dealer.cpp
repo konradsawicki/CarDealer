@@ -22,7 +22,7 @@ void Dealer::OpenShop()
 	}
 }
 
-void Dealer::ShowAvailableProducts()
+void Dealer::ShowAvailableProducts() const
 {
 	m_ConsoleManager.Print("List of available products:", '\n');
 	for (uint32_t i = 0; i < m_Shop->GetAvailableProducts().size(); i++)
@@ -34,7 +34,7 @@ void Dealer::ShowAvailableProducts()
 	}
 }
 
-void Dealer::ShowSoldProducts()
+void Dealer::ShowSoldProducts() const
 {
 	m_ConsoleManager.Print("List of sold products: ", '\n');
 	for (uint32_t i = 0; i < m_Shop->GetAvailableProducts().size(); i++)
@@ -61,7 +61,7 @@ void Dealer::WelcomeCustomer()
 	}
 }
 
-void Dealer::SellToCustomer()
+void Dealer::SellToCustomer() const
 {
 	m_ConsoleManager.ClearConsole();
 	if (!m_Shop->GetAvailableProducts().empty())
@@ -89,7 +89,7 @@ void Dealer::SellToCustomer()
 	}
 }
 
-void Dealer::ThankForTransaction()
+void Dealer::ThankForTransaction() const
 {
 	m_ConsoleManager.Log("Thank you for the transaction! You will be moved to the main menu in a while.");
 }

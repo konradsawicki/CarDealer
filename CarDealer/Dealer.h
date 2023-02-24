@@ -21,14 +21,14 @@ protected:
 
 	virtual void WelcomeCustomer();
 
-	virtual void ShowAvailableProducts();
-	virtual void ShowSoldProducts();
+	virtual void ShowAvailableProducts() const;
+	virtual void ShowSoldProducts() const;
 	virtual void ShowProduct(const Product& Item) const = 0;
 
 	virtual void BuyFromCustomer() = 0;
-	virtual void SellToCustomer();
+	virtual void SellToCustomer() const;
 
-	virtual void ThankForTransaction();
+	virtual void ThankForTransaction() const;
 
 	virtual void EndWorkDay();
 	virtual void CloseShop();

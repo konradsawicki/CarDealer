@@ -26,7 +26,7 @@ void CarDealer::ShowProduct(const Product& Product) const
 	}
 	else
 	{
-		throw("Invalid Item type");
+		throw(std::exception());
 	}
 }
 
