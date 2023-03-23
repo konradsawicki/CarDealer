@@ -11,7 +11,7 @@ void CarShop::InitProducts()
 void CarShop::AddAvailableProduct(const std::shared_ptr<Item>& Item)
 {
 	if (dynamic_cast<Car*>(Item.get()))
-		m_AvailableProducts.emplace_back(Item, m_TimeManager.Now());
+		m_AvailableProducts.push_back({ Item, m_TimeManager.Now() });
 	else
 	{
 		throw(std::exception());
@@ -21,7 +21,7 @@ void CarShop::AddAvailableProduct(const std::shared_ptr<Item>& Item)
 void CarShop::AddSoldProduct(const std::shared_ptr<Item>& Item)
 {
 	if (dynamic_cast<Car*>(Item.get()))
-		m_SoldProducts.emplace_back(Item, m_TimeManager.Now());
+		m_SoldProducts.push_back({ Item, m_TimeManager.Now() });
 	else
 	{
 		throw(std::exception());
