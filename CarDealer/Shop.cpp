@@ -28,7 +28,7 @@ const std::vector<Product>& Shop::GetSoldProducts() const
     return m_SoldProducts;
 }
 
-void Shop::UpdateProductPrice(uint32_t Index)
+void Shop::UpdateProductPrice(uint32_t Index) const
 {
 	if (Index < m_AvailableProducts.size() && m_DeprecationTimeInterval > 0)
 	{
@@ -42,7 +42,7 @@ void Shop::UpdateProductPrice(uint32_t Index)
 		{
 			uint32_t DeprecationValue = BasePrice * m_DeprecationStep * (IntervalNumberInElapsedTime - m_TimeAfterDeprecationStarts / m_DeprecationTimeInterval);
 
-			if (BasePrice - CurrentPrice >= BasePrice * m_MaxDeprecation)
+			if (DeprecationValue >= BasePrice * m_MaxDeprecation)
 			{
 				m_AvailableProducts[Index].Item->SetCurrentPrice(BasePrice - BasePrice * m_MaxDeprecation);
 			}

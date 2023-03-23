@@ -5,20 +5,13 @@
 
 void CarDealer::InitShop()
 {
-	if (m_Shop = std::make_unique<CarShop>())
-	{
-		m_Shop->Run();
-	}
-	else
-	{
-		throw(std::exception());
-	}
+	m_Shop = std::make_unique<CarShop>();
+	m_Shop->Run();
 }
 
 void CarDealer::ShowProduct(const Product& Product) const
 {
-	Car* car = dynamic_cast<Car*>(Product.Item.get());
-	if (car)
+	if (auto car = std::dynamic_pointer_cast<Car>(Product.Item))
 	{
 		m_ConsoleManager.Print("Model: ", car->GetModelName());
 		m_ConsoleManager.Print("Year of first registration: ", car->GetYearOfFirstRegistration());
@@ -44,7 +37,7 @@ void CarDealer::BuyFromCustomer()
 	m_ConsoleManager.Print('\n', "Price ($): ");
 	uint32_t Price = m_Customer.GetAnswer<uint32_t>();
 
-	m_Shop->AddAvailableProduct(std::make_shared<Car>(ModelName, YearOfFirstRegistration, Price * 1.2));
+	m_Shop->AddAvailableProduct(std::make_shared<Car>(ModelName, YearOfFirstRegistration, static_cast<uint32_t>(Price * 1.2)));
 	ThankForTransaction();
 }
 

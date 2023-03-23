@@ -27,7 +27,7 @@ public:
 	virtual const std::vector<Product>& GetAvailableProducts() const;
 	virtual const std::vector<Product>& GetSoldProducts() const;
 
-	virtual void UpdateProductPrice(uint32_t Index);
+	virtual void UpdateProductPrice(uint32_t Index) const;
 
 	virtual ~Shop() {}
 

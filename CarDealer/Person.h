@@ -11,6 +11,7 @@ public:
 		return m_ConsoleManager.GetInput<T>();
 	}
 
+	virtual ~Person() {}
 protected:
 	ConsoleManager m_ConsoleManager;
 };

@@ -4,6 +4,7 @@
 #include <thread>
 #include <iostream>
 #include <string>
+#include <type_traits>
 #include <conio.h>
 
 class ConsoleManager
@@ -22,7 +23,7 @@ public:
 	void Print(const Types& ... messages) const { ((std::cout << messages), ...) << std::endl; }
 
 	template<typename T>
-	T GetInput() const { throw("Invalid input type"); }
+	T GetInput() const { throw("Invalid input type"); } // static_assert(false); doesn't work, don't know why
 
 	template<>
 	uint32_t GetInput<uint32_t>() const
