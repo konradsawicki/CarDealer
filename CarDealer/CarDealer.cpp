@@ -19,7 +19,7 @@ void CarDealer::ShowProduct(const Product& Product) const
 	}
 	else
 	{
-		throw(std::exception());
+		throw(std::exception("Dynamic cast failed"));
 	}
 }
 

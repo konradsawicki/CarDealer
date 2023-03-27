@@ -14,7 +14,7 @@ void Shop::RemoveAvailableProduct(uint32_t Index)
 	}
 	else
 	{
-		throw(std::exception());
+		throw(std::exception("Index out of bounds"));
 	}
 }
 
@@ -30,7 +30,7 @@ const std::vector<Product>& Shop::GetSoldProducts() const
 
 void Shop::UpdateProductPrice(uint32_t Index) const
 {
-	if (Index < m_AvailableProducts.size() && m_DeprecationTimeInterval > 0)
+	if (Index < m_AvailableProducts.size())
 	{
 		seconds ElapsedTime = m_TimeManager.CalculateDuration<seconds>(m_TimeManager.Now(), m_AvailableProducts[Index].Time);
 		uint32_t IntervalNumberInElapsedTime = ElapsedTime.count() / m_DeprecationTimeInterval;
@@ -54,7 +54,7 @@ void Shop::UpdateProductPrice(uint32_t Index) const
 	}
 	else
 	{
-		throw(std::exception());
+		throw(std::exception("Index out of bounds"));
 	}
 }
 

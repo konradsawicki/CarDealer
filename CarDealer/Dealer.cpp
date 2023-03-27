@@ -10,14 +10,19 @@ void Dealer::OpenShop()
 		{
 			WelcomeCustomer();
 		}
+		catch (const char* message)
+		{
+			m_ConsoleManager.Log(message + std::string(". Try again in a while."));
+		}
 		catch (const std::exception& e)
 		{
-			m_ConsoleManager.Log("Fatal error.");
+			m_ConsoleManager.Log(std::string("Fatal error. ") + e.what());
 			exit(1);
 		}
 		catch (...)
 		{
-			m_ConsoleManager.Log("Something went wrong. Try again in a while.");
+			m_ConsoleManager.Log("Something went wrong. Check the source code.");
+			exit(2);
 		}
 	}
 }
@@ -57,7 +62,7 @@ void Dealer::WelcomeCustomer()
 		case 1: SellToCustomer(); break;
 		case 2: BuyFromCustomer(); break;
 		case 3: EndWorkDay(); break;
-		default: throw("Invalid service type");
+		default: throw("Invalid choice");
 	}
 }
 
@@ -80,7 +85,7 @@ void Dealer::SellToCustomer() const
 		}
 		else
 		{
-			throw("Invalid index");
+			throw("Invalid choice");
 		}
 	}
 	else

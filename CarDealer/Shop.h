@@ -42,16 +42,3 @@ protected:
 	uint32_t m_DeprecationTimeInterval = 10;	// seconds
 	uint32_t m_TimeAfterDeprecationStarts = 30; // seconds
 };
-
-template <typename A, typename B>
-inline float Division(A x, B y)
-{
-	if (y != 0)
-	{
-		return x / y;
-	}
-	else
-	{
-		throw(std::exception());
-	}
-}

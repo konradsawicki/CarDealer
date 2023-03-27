@@ -14,7 +14,7 @@ void CarShop::AddAvailableProduct(const std::shared_ptr<Item>& Item)
 		m_AvailableProducts.push_back({ Item, m_TimeManager.Now() });
 	else
 	{
-		throw(std::exception());
+		throw(std::exception("Dynamic cast failed"));
 	}
 }
 
@@ -24,6 +24,6 @@ void CarShop::AddSoldProduct(const std::shared_ptr<Item>& Item)
 		m_SoldProducts.push_back({ Item, m_TimeManager.Now() });
 	else
 	{
-		throw(std::exception());
+		throw(std::exception("Dynamic cast failed"));
 	}
 }
